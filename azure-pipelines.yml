@@ -3,7 +3,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+    branches:
+      include:
+      - main
+    paths:
+      include:
+      - Shopping/Shopping.API/*
+      - aks/shoppingapi.yaml
 
 resources:
 - repo: self
@@ -12,7 +18,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '1a50fb50-bd95-4452-8da8-89d2f9b5dfa1'
-  imageRepository: 'mayankdevpariharazurecicdaksclientapi'
+  imageRepository: 'shoppingapi'
   containerRegistry: 'shoppingacrmayankmayank.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -42,8 +48,8 @@ stages:
         tags: |
           $(tag)
 
-    - upload: manifests
-      artifact: manifests
+    - upload: aks
+      artifact: aks
 
 - stage: Deploy
   displayName: Deploy stage
@@ -51,10 +57,10 @@ stages:
 
   jobs:
   - deployment: Deploy
-    displayName: Deploy
+    displayName: Deploy Shopping API
     pool:
       vmImage: $(vmImageName)
-    environment: 'mayankdevparihar1988azurecicdaks-1962.default'
+    environment: 'aspnetrunrundevops.default'
     strategy:
       runOnce:
         deploy:
@@ -65,16 +71,14 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
+              
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/aks/shoppingapi.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-
