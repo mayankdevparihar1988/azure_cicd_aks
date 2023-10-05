@@ -60,7 +60,7 @@ stages:
     displayName: Deploy Shopping API
     pool:
       vmImage: $(vmImageName)
-    environment: 'mayankdevparihar1988azurecicdaks-1962'
+    environment: 'mayankdevparihar1988azurecicdaks-1962.default'
     strategy:
       runOnce:
         deploy:
