@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mayankdevpariharazurecicdaksclientapi 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mayankdevpariharazurecicdaksclientapi
+  template:
+    metadata:
+      labels:
+        app: mayankdevpariharazurecicdaksclientapi 
+    spec:
+      containers:
+        - name: mayankdevpariharazurecicdaksclientapi 
+          image: shoppingacrmayankmayank.azurecr.io/mayankdevpariharazurecicdaksclientapi
+          ports:
+          - containerPort: 80
