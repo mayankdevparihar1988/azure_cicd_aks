@@ -17,7 +17,7 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'e2bd5050-0b04-449c-8cd9-9367bbf7b47e'
+  dockerRegistryServiceConnection: '1a50fb50-bd95-4452-8da8-89d2f9b5dfa1'
   imageRepository: 'shoppingclient'
   containerRegistry: 'shoppingacrmayankmayank.azurecr.io'
   dockerfilePath: 'Shopping/Shopping.Client/Dockerfile'
